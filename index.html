@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Link Generator — Nova & Togar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Nunito:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cream:       #faf6ee;
+  --ivory:       #f5efe0;
+  --rose:        #b07050;
+  --rose-light:  #c9937a;
+  --rose-pale:   #e8cfc0;
+  --gold:        #9a7a3a;
+  --gold-light:  #c8a84a;
+  --gold-pale:   #e8d898;
+  --brown-dark:  #3c2a18;
+  --brown-mid:   #7a5a38;
+  --brown-pale:  #b09070;
+}
+
+body {
+  background: var(--cream);
+  font-family: 'Cormorant Garamond', serif;
+  color: var(--brown-dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px 60px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* ── BG RADIAL MOOD ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 10% 10%, rgba(200,168,74,0.09) 0%, transparent 55%),
+    radial-gradient(ellipse at 90% 90%, rgba(176,112,80,0.08) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── FLOATING PETAL BG ── */
+.petal { position: fixed; top: -60px; pointer-events: none; animation: petalFall linear infinite; z-index: 0; }
+@keyframes petalFall {
+  0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+  5%   { opacity: 0.6; }
+  80%  { opacity: 0.4; }
+  100% { transform: translateY(105vh) rotate(480deg); opacity: 0; }
+}
+
+/* ── MAIN CARD ── */
+.main-wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 560px;
+}
+
+/* ── HEADER ── */
+.page-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+.page-header .eyebrow {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 10px;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 10px;
+}
+.page-header .couple-name {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(42px, 10vw, 62px);
+  color: var(--brown-dark);
+  line-height: 1.1;
+  display: block;
+}
+.page-header .page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--brown-pale);
+  margin-top: 4px;
+  letter-spacing: 1px;
+}
+.header-rule {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 200px;
+  margin: 16px auto 0;
+}
+.header-rule::before, .header-rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(154,122,58,0.45), transparent);
+}
+.header-rule-center {
+  font-size: 8px;
+  color: var(--gold);
+  letter-spacing: 3px;
+}
+
+/* ── FORM PANEL ── */
+.panel {
+  background: rgba(255,255,255,0.75);
+  border: 1px solid rgba(154,122,58,0.18);
+  border-radius: 3px;
+  padding: 36px 32px 32px;
+  box-shadow: 0 8px 48px rgba(60,42,24,0.09), 0 1px 0 rgba(255,255,255,0.9) inset;
+  position: relative;
+  margin-bottom: 20px;
+}
+/* Corner ornaments */
+.panel::before, .panel::after {
+  content: '';
+  position: absolute;
+  width: 20px; height: 20px;
+  border-color: rgba(154,122,58,0.4);
+  border-style: solid;
+}
+.panel::before { top: 10px; left: 10px; border-width: 1px 0 0 1px; }
+.panel::after  { bottom: 10px; right: 10px; border-width: 0 1px 1px 0; }
+
+.panel-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 18px;
+  font-style: italic;
+  color: var(--brown-dark);
+  text-align: center;
+  margin-bottom: 6px;
+}
+.panel-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  color: var(--brown-pale);
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 28px;
+}
+
+/* ── FIELD ── */
+.field { margin-bottom: 22px; }
+.field-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 10px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 8px;
+}
+.field-input {
+  width: 100%;
+  background: rgba(250,246,238,0.85);
+  border: none;
+  border-bottom: 1.5px solid rgba(154,122,58,0.3);
+  padding: 10px 2px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  color: var(--brown-dark);
+  outline: none;
+  transition: border-color 0.25s;
+  appearance: none;
+}
+.field-input:focus { border-bottom-color: var(--gold); }
+.field-input::placeholder { color: rgba(122,90,56,0.35); font-style: italic; font-size: 15px; }
+.field-hint {
+  font-size: 11px;
+  color: var(--brown-pale);
+  font-style: italic;
+  margin-top: 6px;
+  letter-spacing: 0.3px;
+}
+
+/* ── GENERATE BTN ── */
+.btn-generate {
+  width: 100%;
+  background: linear-gradient(135deg, #c9937a 0%, #b07050 50%, #9a6040 100%);
+  color: #fff;
+  border: none;
+  padding: 15px 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-style: italic;
+  letter-spacing: 3px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(176,112,80,0.32);
+  margin-top: 6px;
+}
+.btn-generate::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+  transition: left 0.4s ease;
+}
+.btn-generate:hover::before { left: 100%; }
+.btn-generate:hover { opacity: 0.93; transform: translateY(-1px); box-shadow: 0 6px 28px rgba(176,112,80,0.42); }
+.btn-generate:active { transform: translateY(1px); }
+
+/* ── RESULT PANEL ── */
+.result-panel {
+  display: none;
+  background: rgba(255,255,255,0.75);
+  border: 1px solid rgba(154,122,58,0.18);
+  border-radius: 3px;
+  padding: 28px 28px 24px;
+  box-shadow: 0 8px 48px rgba(60,42,24,0.09);
+  margin-bottom: 20px;
+  animation: slideUp 0.4s cubic-bezier(0.25,0.46,0.45,0.94) both;
+  position: relative;
+}
+.result-panel::before, .result-panel::after {
+  content: '';
+  position: absolute;
+  width: 16px; height: 16px;
+  border-color: rgba(154,122,58,0.4);
+  border-style: solid;
+}
+.result-panel::before { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+.result-panel::after  { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.result-for {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 6px;
+}
+.result-name {
+  font-family: 'Great Vibes', cursive;
+  font-size: 34px;
+  color: var(--rose);
+  text-align: center;
+  display: block;
+  margin-bottom: 18px;
+  line-height: 1.2;
+}
+
+/* URL box */
+.url-box {
+  background: rgba(250,246,238,0.9);
+  border: 1px solid rgba(154,122,58,0.2);
+  border-radius: 2px;
+  padding: 14px 16px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 12px;
+  color: var(--brown-mid);
+  word-break: break-all;
+  line-height: 1.7;
+  margin-bottom: 16px;
+  position: relative;
+}
+.url-box .url-text {
+  display: block;
+  padding-right: 36px;
+}
+.url-box .url-domain {
+  color: var(--brown-pale);
+}
+.url-box .url-param {
+  color: var(--rose);
+  font-weight: 700;
+}
+
+/* Action buttons row */
+.action-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.btn-action {
+  padding: 11px 16px;
+  border-radius: 2px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.2s, transform 0.15s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+}
+.btn-action:hover { opacity: 0.87; transform: translateY(-1px); }
+.btn-action:active { transform: translateY(1px); }
+.btn-copy {
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+  color: #fff;
+  box-shadow: 0 3px 14px rgba(154,122,58,0.3);
+}
+.btn-wa {
+  background: linear-gradient(135deg, #6dc96d, #3a9a3a);
+  color: #fff;
+  box-shadow: 0 3px 14px rgba(58,154,58,0.28);
+}
+
+/* Copy feedback */
+.copy-feedback {
+  display: none;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--gold);
+  text-align: center;
+  margin-top: 12px;
+  letter-spacing: 1px;
+}
+.copy-feedback.show { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── BULK SECTION ── */
+.bulk-panel {
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(154,122,58,0.15);
+  border-radius: 3px;
+  padding: 28px 28px 24px;
+  box-shadow: 0 4px 24px rgba(60,42,24,0.07);
+}
+.bulk-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-style: italic;
+  color: var(--brown-dark);
+  margin-bottom: 4px;
+  text-align: center;
+}
+.bulk-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  color: var(--brown-pale);
+  font-style: italic;
+  text-align: center;
+  margin-bottom: 18px;
+}
+.bulk-textarea {
+  width: 100%;
+  background: rgba(250,246,238,0.85);
+  border: 1px solid rgba(154,122,58,0.2);
+  border-radius: 2px;
+  padding: 12px 14px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 13px;
+  color: var(--brown-dark);
+  resize: vertical;
+  min-height: 110px;
+  outline: none;
+  line-height: 1.8;
+  transition: border-color 0.2s;
+  margin-bottom: 12px;
+}
+.bulk-textarea:focus { border-color: var(--gold); }
+.bulk-textarea::placeholder { color: rgba(122,90,56,0.38); font-style: italic; }
+
+.btn-bulk {
+  width: 100%;
+  background: linear-gradient(135deg, #b09070, var(--brown-mid));
+  color: #fff;
+  border: none;
+  padding: 13px 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-style: italic;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  box-shadow: 0 3px 16px rgba(60,42,24,0.18);
+}
+.btn-bulk:hover { opacity: 0.9; transform: translateY(-1px); }
+.btn-bulk:active { transform: translateY(1px); }
+
+/* Bulk results list */
+.bulk-results {
+  display: none;
+  margin-top: 18px;
+  border-top: 1px solid rgba(154,122,58,0.18);
+  padding-top: 18px;
+}
+.bulk-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(154,122,58,0.1);
+}
+.bulk-item:last-child { border-bottom: none; }
+.bulk-item-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  color: var(--brown-dark);
+  min-width: 120px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+.bulk-item-url {
+  font-family: 'Nunito', sans-serif;
+  font-size: 11px;
+  color: var(--brown-pale);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bulk-item-copy {
+  flex-shrink: 0;
+  background: rgba(154,122,58,0.1);
+  border: 1px solid rgba(154,122,58,0.2);
+  border-radius: 2px;
+  padding: 4px 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: var(--gold);
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.bulk-item-copy:hover { background: rgba(154,122,58,0.18); }
+.bulk-item-copy.copied { background: rgba(46,125,50,0.12); color: #2e7d32; border-color: rgba(46,125,50,0.25); }
+
+.bulk-copy-all {
+  margin-top: 14px;
+  width: 100%;
+  background: transparent;
+  border: 1px solid rgba(154,122,58,0.3);
+  padding: 10px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  font-style: italic;
+  letter-spacing: 2px;
+  color: var(--gold);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.bulk-copy-all:hover { background: rgba(154,122,58,0.07); }
+
+/* ── SECTION DIVIDER ── */
+.section-gap {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 28px 0 24px;
+}
+.section-gap::before, .section-gap::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(154,122,58,0.3));
+}
+.section-gap::after { background: linear-gradient(to left, transparent, rgba(154,122,58,0.3)); }
+.section-gap-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  color: var(--brown-pale);
+  white-space: nowrap;
+}
+
+/* ── FOOTER ── */
+.page-footer {
+  text-align: center;
+  margin-top: 36px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 12px;
+  color: var(--brown-pale);
+  font-style: italic;
+  letter-spacing: 1px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── ORNAMENT ROW ── */
+.orn { text-align: center; color: var(--gold-light); letter-spacing: 8px; font-size: 14px; margin-bottom: 20px; }
+
+@media (max-width: 480px) {
+  body { padding: 28px 16px 48px; }
+  .panel, .result-panel, .bulk-panel { padding: 28px 20px 22px; }
+  .action-row { grid-template-columns: 1fr; }
+  .bulk-item-name { max-width: 100px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Falling petals -->
+<div id="petal-container"></div>
+
+<div class="main-wrap">
+
+  <!-- HEADER -->
+  <header class="page-header">
+    <span class="eyebrow">Generator Undangan</span>
+    <span class="couple-name">Nova &amp; Togar</span>
+    <p class="page-title">Buat link personal untuk setiap tamu</p>
+    <div class="header-rule"><span class="header-rule-center">✦ ✦ ✦</span></div>
+  </header>
+
+  <div class="orn">&#10022; &#10023; &#10022;</div>
+
+  <!-- SINGLE LINK PANEL -->
+  <div class="panel">
+    <p class="panel-title">Satu Tamu</p>
+    <p class="panel-sub">Masukkan nama, dapatkan link personal</p>
+
+    <div class="field">
+      <label class="field-label" for="base-url">URL Undangan</label>
+      <input class="field-input" type="url" id="base-url"
+        value="https://tgrsp.github.io/thewedding-of-novatogar/"
+        placeholder="https://...">
+      <span class="field-hint">URL dasar undangan digital kamu</span>
+    </div>
+
+    <div class="field">
+      <label class="field-label" for="guest-name">Nama Tamu</label>
+      <input class="field-input" type="text" id="guest-name"
+        placeholder="contoh: Bapak Hendra Santoso"
+        autocomplete="off">
+      <span class="field-hint">Nama ini akan tampil di layar pembuka undangan</span>
+    </div>
+
+    <button class="btn-generate" onclick="generateLink()">
+      Buat Link ✦
+    </button>
+  </div>
+
+  <!-- RESULT PANEL -->
+  <div class="result-panel" id="result-panel">
+    <p class="result-for">Link untuk</p>
+    <span class="result-name" id="result-name-display"></span>
+
+    <div class="url-box">
+      <span class="url-text" id="result-url-display"></span>
+    </div>
+
+    <div class="action-row">
+      <button class="btn-action btn-copy" onclick="copyLink()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        Salin Link
+      </button>
+      <button class="btn-action btn-wa" onclick="shareWhatsApp()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.521.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+        WhatsApp
+      </button>
+    </div>
+    <div class="copy-feedback" id="copy-feedback">✓ Link berhasil disalin!</div>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="section-gap">
+    <span class="section-gap-label">atau generate banyak sekaligus</span>
+  </div>
+
+  <!-- BULK PANEL -->
+  <div class="bulk-panel">
+    <p class="bulk-title">Banyak Tamu Sekaligus</p>
+    <p class="bulk-sub">Satu nama per baris, generate semua dalam satu klik</p>
+
+    <textarea class="bulk-textarea" id="bulk-names"
+      placeholder="Bapak Hendra Santoso&#10;Ibu Dewi Rahayu&#10;Keluarga Pak Budi&#10;Kak Sari &amp; Keluarga&#10;..."></textarea>
+
+    <button class="btn-bulk" onclick="generateBulk()">
+      Generate Semua ✦
+    </button>
+
+    <div class="bulk-results" id="bulk-results">
+      <div id="bulk-list"></div>
+      <button class="bulk-copy-all" onclick="copyAllLinks()">Salin Semua Link (format teks)</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="page-footer">
+    ✦ &nbsp;Nova &amp; Togar · 8 · 8 · 2026&nbsp; ✦
+  </div>
+</div>
+
+<script>
+var BASE_URL = '';
+var currentLink = '';
+
+function getBase() {
+  var raw = document.getElementById('base-url').value.trim();
+  if (!raw) raw = 'https://tgrsp.github.io/thewedding-of-novatogar/';
+  if (!raw.includes('://')) raw = 'https://' + raw;
+  return raw;
+}
+
+function buildLink(name) {
+  var base = getBase();
+  var encoded = encodeURIComponent(name);
+  var sep = base.includes('?') ? '&' : '?';
+  return base + sep + 'to=' + encoded;
+}
+
+function formatUrlDisplay(url) {
+  var m = url.match(/^(https?:\/\/[^?]+)(\?to=)(.+)$/);
+  if (!m) return '<span>' + escHtml(url) + '</span>';
+  return '<span class="url-domain">' + escHtml(m[1]) + '</span>'
+       + '<span style="color:var(--brown-pale)">' + escHtml(m[2]) + '</span>'
+       + '<span class="url-param">' + escHtml(decodeURIComponent(m[3])) + '</span>';
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function generateLink() {
+  var name = document.getElementById('guest-name').value.trim();
+  if (!name) {
+    document.getElementById('guest-name').focus();
+    return;
+  }
+  currentLink = buildLink(name);
+
+  document.getElementById('result-name-display').textContent = name;
+  document.getElementById('result-url-display').innerHTML = formatUrlDisplay(currentLink);
+
+  var rp = document.getElementById('result-panel');
+  rp.style.display = 'block';
+  rp.style.animation = 'none';
+  rp.offsetHeight; // reflow
+  rp.style.animation = '';
+
+  document.getElementById('copy-feedback').classList.remove('show');
+  rp.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function copyLink() {
+  if (!currentLink) return;
+  navigator.clipboard.writeText(currentLink).then(function() {
+    showCopyFeedback();
+  }).catch(function() {
+    var el = document.createElement('textarea');
+    el.value = currentLink;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    showCopyFeedback();
+  });
+}
+
+function showCopyFeedback() {
+  var el = document.getElementById('copy-feedback');
+  el.classList.add('show');
+  setTimeout(function() { el.classList.remove('show'); }, 2000);
+}
+
+function shareWhatsApp() {
+  if (!currentLink) return;
+  var name = document.getElementById('guest-name').value.trim() || 'tamu';
+  var msg = 'Kepada Yth. ' + name + ',\n\nDengan penuh kebahagiaan, kami mengundang Anda untuk hadir di hari istimewa kami.\n\n' + currentLink + '\n\n— Nova & Togar ✦';
+  window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
+}
+
+// Enter key on name field
+document.getElementById('guest-name').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') generateLink();
+});
+
+// Regenerate on url change
+document.getElementById('base-url').addEventListener('input', function() {
+  if (currentLink) generateLink();
+});
+
+/* ── BULK ── */
+var bulkLinks = [];
+
+function generateBulk() {
+  var raw = document.getElementById('bulk-names').value;
+  var names = raw.split('\n').map(function(n){ return n.trim(); }).filter(function(n){ return n.length > 0; });
+  if (!names.length) {
+    document.getElementById('bulk-names').focus();
+    return;
+  }
+
+  bulkLinks = names.map(function(name) {
+    return { name: name, url: buildLink(name) };
+  });
+
+  var list = document.getElementById('bulk-list');
+  list.innerHTML = '';
+
+  bulkLinks.forEach(function(item, idx) {
+    var row = document.createElement('div');
+    row.className = 'bulk-item';
+    row.innerHTML =
+      '<span class="bulk-item-name">' + escHtml(item.name) + '</span>' +
+      '<span class="bulk-item-url">' + escHtml(item.url) + '</span>' +
+      '<button class="bulk-item-copy" id="bcopy-' + idx + '" onclick="copyBulkItem(' + idx + ')">Salin</button>';
+    list.appendChild(row);
+  });
+
+  var br = document.getElementById('bulk-results');
+  br.style.display = 'block';
+  br.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function copyBulkItem(idx) {
+  var url = bulkLinks[idx].url;
+  var btn = document.getElementById('bcopy-' + idx);
+  navigator.clipboard.writeText(url).catch(function() {
+    var el = document.createElement('textarea');
+    el.value = url; document.body.appendChild(el);
+    el.select(); document.execCommand('copy');
+    document.body.removeChild(el);
+  }).finally ? navigator.clipboard.writeText(url).finally(function(){ setBulkCopied(btn); }) : setBulkCopied(btn);
+  setBulkCopied(btn);
+}
+
+function setBulkCopied(btn) {
+  btn.textContent = '✓ Disalin';
+  btn.classList.add('copied');
+  setTimeout(function() { btn.textContent = 'Salin'; btn.classList.remove('copied'); }, 1800);
+}
+
+function copyAllLinks() {
+  var text = bulkLinks.map(function(item) {
+    return item.name + '\n' + item.url;
+  }).join('\n\n');
+
+  navigator.clipboard.writeText(text).catch(function() {
+    var el = document.createElement('textarea');
+    el.value = text; document.body.appendChild(el);
+    el.select(); document.execCommand('copy');
+    document.body.removeChild(el);
+  });
+
+  var btn = document.querySelector('.bulk-copy-all');
+  var orig = btn.textContent;
+  btn.textContent = '✓ Semua link berhasil disalin!';
+  setTimeout(function() { btn.textContent = orig; }, 2000);
+}
+
+/* ── PETALS ── */
+(function() {
+  var container = document.getElementById('petal-container');
+  var shapes = [
+    function(c){ return '<svg width="14" height="20" viewBox="0 0 14 20"><path d="M7 0C3 3 0 8 2 14 4 18 7 20 7 20S10 18 12 14C14 8 11 3 7 0Z" fill="'+c+'"/></svg>'; },
+    function(c){ return '<svg width="10" height="18" viewBox="0 0 10 18"><ellipse cx="5" cy="9" rx="4" ry="8" fill="'+c+'"/></svg>'; },
+  ];
+  var colors = ['rgba(176,112,80,0.35)','rgba(154,122,58,0.3)','rgba(200,168,74,0.28)','rgba(201,147,122,0.32)'];
+  for (var i = 0; i < 16; i++) {
+    var p = document.createElement('div');
+    p.className = 'petal';
+    var c = colors[i % colors.length];
+    var shape = shapes[i % shapes.length](c);
+    p.innerHTML = shape;
+    var left = Math.random() * 100;
+    var dur  = 9 + Math.random() * 12;
+    var del  = Math.random() * 18;
+    var sc   = 0.5 + Math.random() * 0.8;
+    p.style.cssText = 'left:'+left+'%;animation-duration:'+dur+'s;animation-delay:-'+del+'s;transform:scale('+sc+')';
+    container.appendChild(p);
+  }
+})();
+</script>
+</body>
+</html>

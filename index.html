@@ -511,6 +511,237 @@ body::before {
   .action-row { grid-template-columns: 1fr; }
   .bulk-item-name { max-width: 100px; }
 }
+
+/* ══════════════════════════════════
+   HISTORY PANEL
+══════════════════════════════════ */
+.history-panel {
+  background: rgba(255,255,255,0.6);
+  border: 1px solid rgba(154,122,58,0.15);
+  border-radius: 3px;
+  padding: 28px 28px 24px;
+  box-shadow: 0 4px 24px rgba(60,42,24,0.07);
+  position: relative;
+}
+.history-panel::before, .history-panel::after {
+  content: '';
+  position: absolute;
+  width: 16px; height: 16px;
+  border-color: rgba(154,122,58,0.35);
+  border-style: solid;
+}
+.history-panel::before { top: 8px; left: 8px; border-width: 1px 0 0 1px; }
+.history-panel::after  { bottom: 8px; right: 8px; border-width: 0 1px 1px 0; }
+
+.history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+.history-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 16px;
+  font-style: italic;
+  color: var(--brown-dark);
+}
+.history-count {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.history-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  color: var(--brown-pale);
+  font-style: italic;
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+/* Search bar */
+.history-search-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+.history-search {
+  width: 100%;
+  background: rgba(250,246,238,0.85);
+  border: 1px solid rgba(154,122,58,0.2);
+  border-radius: 2px;
+  padding: 9px 36px 9px 12px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  color: var(--brown-dark);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.history-search:focus { border-color: var(--gold); }
+.history-search::placeholder { color: rgba(122,90,56,0.38); font-style: italic; }
+.history-search-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--brown-pale);
+  pointer-events: none;
+  font-size: 15px;
+}
+
+/* List */
+.history-list {
+  max-height: 320px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(154,122,58,0.3) transparent;
+}
+.history-list::-webkit-scrollbar { width: 4px; }
+.history-list::-webkit-scrollbar-track { background: transparent; }
+.history-list::-webkit-scrollbar-thumb { background: rgba(154,122,58,0.3); border-radius: 4px; }
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 4px;
+  border-bottom: 1px solid rgba(154,122,58,0.09);
+  transition: background 0.15s;
+  border-radius: 2px;
+  cursor: default;
+}
+.history-item:last-child { border-bottom: none; }
+.history-item:hover { background: rgba(154,122,58,0.05); }
+
+.history-item-avatar {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--rose-pale), var(--gold-pale));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--brown-mid);
+  flex-shrink: 0;
+  border: 1px solid rgba(154,122,58,0.15);
+}
+.history-item-info {
+  flex: 1;
+  min-width: 0;
+}
+.history-item-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  color: var(--brown-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.history-item-time {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  color: var(--brown-pale);
+  font-style: italic;
+  margin-top: 1px;
+}
+.history-item-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+.hbtn {
+  padding: 4px 10px;
+  border-radius: 2px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+  white-space: nowrap;
+  border: 1px solid;
+}
+.hbtn-load {
+  background: rgba(154,122,58,0.08);
+  border-color: rgba(154,122,58,0.22);
+  color: var(--gold);
+}
+.hbtn-load:hover { background: rgba(154,122,58,0.16); }
+.hbtn-copy {
+  background: rgba(176,112,80,0.08);
+  border-color: rgba(176,112,80,0.22);
+  color: var(--rose);
+}
+.hbtn-copy:hover { background: rgba(176,112,80,0.16); }
+.hbtn-copy.copied { background: rgba(46,125,50,0.1); color: #2e7d32; border-color: rgba(46,125,50,0.25); }
+.hbtn-del {
+  background: transparent;
+  border-color: rgba(154,122,58,0.15);
+  color: var(--brown-pale);
+  padding: 4px 7px;
+}
+.hbtn-del:hover { background: rgba(198,40,40,0.07); border-color: rgba(198,40,40,0.2); color: #c62828; }
+
+/* Empty state */
+.history-empty {
+  text-align: center;
+  padding: 28px 0 18px;
+}
+.history-empty-icon {
+  font-size: 28px;
+  color: rgba(154,122,58,0.25);
+  margin-bottom: 10px;
+}
+.history-empty-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--brown-pale);
+}
+
+/* Footer actions */
+.history-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(154,122,58,0.12);
+}
+.history-footer-info {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 11px;
+  font-style: italic;
+  color: var(--brown-pale);
+}
+.btn-clear-all {
+  background: transparent;
+  border: 1px solid rgba(198,40,40,0.2);
+  border-radius: 2px;
+  padding: 5px 12px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(198,40,40,0.6);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.btn-clear-all:hover { background: rgba(198,40,40,0.07); color: #c62828; }
+
+.history-no-result {
+  text-align: center;
+  padding: 18px 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--brown-pale);
+}
 </style>
 </head>
 <body>
@@ -601,6 +832,34 @@ body::before {
     </div>
   </div>
 
+
+  <!-- DIVIDER history -->
+  <div class="section-gap">
+    <span class="section-gap-label">riwayat generate</span>
+  </div>
+
+  <!-- HISTORY PANEL -->
+  <div class="history-panel" id="history-panel">
+    <div class="history-header">
+      <p class="history-title">Riwayat Tamu</p>
+      <span class="history-count" id="history-count">0 tamu</span>
+    </div>
+    <p class="history-sub">Semua nama yang pernah di-generate tersimpan di sini</p>
+
+    <div class="history-search-wrap">
+      <input class="history-search" type="text" id="history-search"
+        placeholder="Cari nama tamu…" oninput="filterHistory(this.value)" autocomplete="off">
+      <span class="history-search-icon">⌕</span>
+    </div>
+
+    <div class="history-list" id="history-list"></div>
+
+    <div class="history-footer">
+      <span class="history-footer-info" id="history-footer-info"></span>
+      <button class="btn-clear-all" onclick="clearAllHistory()">Hapus Semua</button>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <div class="page-footer">
     ✦ &nbsp;Nova &amp; Togar · 8 · 8 · 2026&nbsp; ✦
@@ -628,9 +887,11 @@ function buildLink(name) {
 function formatUrlDisplay(url) {
   var m = url.match(/^(https?:\/\/[^?]+)(\?to=)(.+)$/);
   if (!m) return '<span>' + escHtml(url) + '</span>';
+  var decodedParam;
+  try { decodedParam = decodeURIComponent(m[3]); } catch(e) { decodedParam = m[3]; }
   return '<span class="url-domain">' + escHtml(m[1]) + '</span>'
        + '<span style="color:var(--brown-pale)">' + escHtml(m[2]) + '</span>'
-       + '<span class="url-param">' + escHtml(decodeURIComponent(m[3])) + '</span>';
+       + '<span class="url-param">' + escHtml(decodedParam) + '</span>';
 }
 
 function escHtml(str) {
@@ -656,6 +917,7 @@ function generateLink() {
 
   document.getElementById('copy-feedback').classList.remove('show');
   rp.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  addToHistory(name);
 }
 
 function copyLink() {
@@ -691,9 +953,10 @@ document.getElementById('guest-name').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') generateLink();
 });
 
-// Regenerate on url change
+// Regenerate on url change — only if result panel is already visible
 document.getElementById('base-url').addEventListener('input', function() {
-  if (currentLink) generateLink();
+  var rp = document.getElementById('result-panel');
+  if (currentLink && rp.style.display === 'block') generateLink();
 });
 
 /* ── BULK ── */
@@ -727,18 +990,35 @@ function generateBulk() {
   var br = document.getElementById('bulk-results');
   br.style.display = 'block';
   br.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  // Add all bulk names to history
+  names.forEach(function(n) { addToHistory(n); });
 }
 
 function copyBulkItem(idx) {
   var url = bulkLinks[idx].url;
   var btn = document.getElementById('bcopy-' + idx);
-  navigator.clipboard.writeText(url).catch(function() {
-    var el = document.createElement('textarea');
-    el.value = url; document.body.appendChild(el);
-    el.select(); document.execCommand('copy');
-    document.body.removeChild(el);
-  }).finally ? navigator.clipboard.writeText(url).finally(function(){ setBulkCopied(btn); }) : setBulkCopied(btn);
-  setBulkCopied(btn);
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(function() {
+      setBulkCopied(btn);
+    }).catch(function() {
+      fallbackCopy(url);
+      setBulkCopied(btn);
+    });
+  } else {
+    fallbackCopy(url);
+    setBulkCopied(btn);
+  }
+}
+
+function fallbackCopy(text) {
+  var el = document.createElement('textarea');
+  el.value = text;
+  el.style.position = 'fixed';
+  el.style.opacity = '0';
+  document.body.appendChild(el);
+  el.select();
+  try { document.execCommand('copy'); } catch(e) {}
+  document.body.removeChild(el);
 }
 
 function setBulkCopied(btn) {
@@ -752,18 +1032,217 @@ function copyAllLinks() {
     return item.name + '\n' + item.url;
   }).join('\n\n');
 
-  navigator.clipboard.writeText(text).catch(function() {
-    var el = document.createElement('textarea');
-    el.value = text; document.body.appendChild(el);
-    el.select(); document.execCommand('copy');
-    document.body.removeChild(el);
-  });
-
   var btn = document.querySelector('.bulk-copy-all');
   var orig = btn.textContent;
-  btn.textContent = '✓ Semua link berhasil disalin!';
-  setTimeout(function() { btn.textContent = orig; }, 2000);
+
+  function onSuccess() {
+    btn.textContent = '✓ Semua link berhasil disalin!';
+    setTimeout(function() { btn.textContent = orig; }, 2200);
+  }
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(onSuccess).catch(function() {
+      fallbackCopy(text);
+      onSuccess();
+    });
+  } else {
+    fallbackCopy(text);
+    onSuccess();
+  }
 }
+
+
+/* ══════════════════════════════════
+   HISTORY — Supabase
+══════════════════════════════════ */
+var SUPA_URL  = 'https://uwohezxsiuovgiqnjtre.supabase.co';
+var SUPA_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV3b2hlenhzaXVvdmdpcW5qdHJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2ODgxNzAsImV4cCI6MjA5NTI2NDE3MH0.3CzE2tO14bR1Wz3dm4i9v8KTcq6mhYiKFrV6LOP5eBo';
+var SUPA_TABLE = 'guest_history';
+
+// Cache lokal agar UI tetap responsif
+var _historyCache = [];
+
+function supaFetch(path, opts) {
+  return fetch(SUPA_URL + '/rest/v1/' + path, Object.assign({
+    headers: {
+      'apikey': SUPA_KEY,
+      'Authorization': 'Bearer ' + SUPA_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=representation'
+    }
+  }, opts));
+}
+
+function loadHistory(callback) {
+  supaFetch(SUPA_TABLE + '?select=id,name,created_at&order=created_at.desc&limit=200')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      _historyCache = Array.isArray(data) ? data : [];
+      if (callback) callback(_historyCache);
+      renderHistory(document.getElementById('history-search') ? document.getElementById('history-search').value : '');
+    })
+    .catch(function() {
+      renderHistory('');
+    });
+}
+
+function addToHistory(name) {
+  // Optimistic UI — tambah ke cache dulu
+  var exists = _historyCache.find(function(i) { return i.name.toLowerCase() === name.toLowerCase(); });
+  if (!exists) {
+    _historyCache.unshift({ id: null, name: name, created_at: new Date().toISOString() });
+    renderHistory('');
+  }
+  // Cek dulu apakah nama sudah ada di DB
+  supaFetch(SUPA_TABLE + '?name=eq.' + encodeURIComponent(name) + '&select=id')
+    .then(function(r) { return r.json(); })
+    .then(function(rows) {
+      if (rows && rows.length > 0) {
+        // Sudah ada — update created_at supaya naik ke atas
+        return supaFetch(SUPA_TABLE + '?id=eq.' + rows[0].id, {
+          method: 'PATCH',
+          body: JSON.stringify({ created_at: new Date().toISOString() })
+        });
+      } else {
+        // Belum ada — insert baru
+        return supaFetch(SUPA_TABLE, {
+          method: 'POST',
+          body: JSON.stringify({ name: name })
+        });
+      }
+    })
+    .then(function() { loadHistory(); })
+    .catch(function() { loadHistory(); });
+}
+
+function deleteFromHistory(id) {
+  // Optimistic UI
+  _historyCache = _historyCache.filter(function(i) { return i.id !== id; });
+  renderHistory(document.getElementById('history-search').value);
+
+  supaFetch(SUPA_TABLE + '?id=eq.' + id, { method: 'DELETE' })
+    .then(function() { loadHistory(); })
+    .catch(function() { loadHistory(); });
+}
+
+function clearAllHistory() {
+  if (!confirm('Hapus semua riwayat tamu?')) return;
+  _historyCache = [];
+  renderHistory('');
+  supaFetch(SUPA_TABLE + '?id=neq.0', { method: 'DELETE' })
+    .then(function() { loadHistory(); })
+    .catch(function() { loadHistory(); });
+}
+
+function formatTimeAgo(isoStr) {
+  var ts   = new Date(isoStr).getTime();
+  var diff = Date.now() - ts;
+  var mins  = Math.floor(diff / 60000);
+  var hours = Math.floor(diff / 3600000);
+  var days  = Math.floor(diff / 86400000);
+  if (mins < 1)   return 'Baru saja';
+  if (mins < 60)  return mins + ' menit lalu';
+  if (hours < 24) return hours + ' jam lalu';
+  if (days < 30)  return days + ' hari lalu';
+  var d = new Date(ts);
+  return d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear();
+}
+
+function getInitials(name) {
+  var parts = name.trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+  return (parts[0].charAt(0) + parts[parts.length-1].charAt(0)).toUpperCase();
+}
+
+function filterHistory(query) {
+  renderHistory(query);
+}
+
+function renderHistory(query) {
+  var arr     = _historyCache;
+  var list    = document.getElementById('history-list');
+  var countEl = document.getElementById('history-count');
+  var footerEl= document.getElementById('history-footer-info');
+
+  countEl.textContent = arr.length + ' tamu';
+
+  var filtered = query
+    ? arr.filter(function(item) {
+        return item.name.toLowerCase().includes(query.toLowerCase());
+      })
+    : arr;
+
+  if (arr.length === 0) {
+    list.innerHTML =
+      '<div class="history-empty">' +
+        '<div class="history-empty-icon">✦</div>' +
+        '<p class="history-empty-text">Belum ada tamu yang di-generate</p>' +
+      '</div>';
+    footerEl.textContent = '';
+    return;
+  }
+
+  if (filtered.length === 0) {
+    list.innerHTML = '<div class="history-no-result">Tidak ada tamu bernama "' + escHtml(query) + '"</div>';
+    footerEl.textContent = '';
+    return;
+  }
+
+  footerEl.textContent = query
+    ? 'Menampilkan ' + filtered.length + ' dari ' + arr.length + ' tamu'
+    : 'Tersimpan di Supabase ✦';
+
+  list.innerHTML = filtered.map(function(item) {
+    var initials     = getInitials(item.name);
+    var timeStr      = formatTimeAgo(item.created_at);
+    var safeName     = escHtml(item.name);
+    var safeNameAttr = item.name.replace(/'/g, "\\'");
+    var itemId       = item.id;
+    return (
+      '<div class="history-item">' +
+        '<div class="history-item-avatar">' + escHtml(initials) + '</div>' +
+        '<div class="history-item-info">' +
+          '<div class="history-item-name">' + safeName + '</div>' +
+          '<div class="history-item-time">' + timeStr + '</div>' +
+        '</div>' +
+        '<div class="history-item-actions">' +
+          '<button class="hbtn hbtn-load" onclick="loadFromHistory(\'' + safeNameAttr + '\')" title="Muat ke form">Muat</button>' +
+          '<button class="hbtn hbtn-copy" id="hcopy-' + itemId + '" onclick="copyFromHistory(\'' + safeNameAttr + '\', this)" title="Salin link">Salin</button>' +
+          '<button class="hbtn hbtn-del" onclick="deleteFromHistory(' + itemId + ')" title="Hapus">✕</button>' +
+        '</div>' +
+      '</div>'
+    );
+  }).join('');
+}
+
+function loadFromHistory(name) {
+  document.getElementById('guest-name').value = name;
+  generateLink();
+  document.getElementById('result-panel').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function copyFromHistory(name, btn) {
+  var url = buildLink(name);
+  var doCopy = function() {
+    fallbackCopy(url);
+    setCopiedBtn(btn);
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(function() { setCopiedBtn(btn); }).catch(doCopy);
+  } else {
+    doCopy();
+  }
+}
+
+function setCopiedBtn(btn) {
+  var orig = btn.textContent;
+  btn.textContent = '✓';
+  btn.classList.add('copied');
+  setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1600);
+}
+
+// Init — load dari Supabase
+loadHistory();
 
 /* ── PETALS ── */
 (function() {

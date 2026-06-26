@@ -944,7 +944,7 @@ function showCopyFeedback() {
 function shareWhatsApp() {
   if (!currentLink) return;
   var name = document.getElementById('guest-name').value.trim() || 'tamu';
-  var msg = 'بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ\n_Assalamu\'alaikum Warahmatullahi Wabarakatuh_\n\nKepada Yth. Bapak/Ibu/Saudara/i\n' + name + '\n\nTanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami, Nova & Togar.\nMerupakan suatu kebahagiaan dan kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu bagi lembaran baru hidup kami.\nInformasi lengkap mengenai waktu dan lokasi acara dapat diakses melalui tautan undangan digital berikut:\n\n👉 ' + currentLink + '\n\nKesan mendalam akan kami rasakan atas kehadiran dan doa restu yang diberikan. Terima kasih banyak atas perhatiannya.\n\n*Nova & Togar ✦*';
+  var msg = '_Assalamu\'alaikum Warahmatullahi Wabarakatuh_\n\nKepada Yth. Bapak/Ibu/Saudara/i\n' + name + '\n\nTanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami, Nova & Togar.\nMerupakan suatu kebahagiaan dan kehormatan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir dan memberikan doa restu bagi lembaran baru hidup kami.\nInformasi lengkap mengenai waktu dan lokasi acara dapat diakses melalui tautan undangan digital berikut:\n\n👉 ' + currentLink + '\n\nKesan mendalam akan kami rasakan atas kehadiran dan doa restu yang diberikan. Terima kasih banyak atas perhatiannya.\n\n*Nova & Togar ✦*';
   window.open('https://wa.me/?text=' + encodeURIComponent(msg), '_blank');
 }
 
